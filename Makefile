@@ -3,11 +3,15 @@
 
 PY       ?= python
 SET      ?= smoke
+STAGE    ?= s0_baseline
+TIER     ?= quick
+STAGES   ?= s0_baseline s1_engine
 THREADS  ?=
 PEAK_GBS ?=
 
 .DEFAULT_GOAL := help
-.PHONY: help sysinfo lock-models download verify-models stream smoke test plots tiny-model
+.PHONY: help sysinfo lock-models download verify-models stream smoke test plots tiny-model \
+        bench bench-tiny bench-quick bench-full
 
 help:
 	@echo 'Targets:'
@@ -19,6 +23,10 @@ help:
 	@echo '  smoke          end-to-end check with the 0.5B model (downloads ~1.5 GB once)'
 	@echo '  test           unit tests, plus an offline llama.cpp check with a tiny random model'
 	@echo '  plots          regenerate figures from results/raw: make plots [PEAK_GBS=76.8]'
+	@echo '  bench          one stage: make bench STAGE=s0_baseline TIER=tiny|smoke|quick|full'
+	@echo '  bench-tiny     all implemented stages with tiny random models (offline, ~1 min)'
+	@echo '  bench-quick    all implemented stages, reduced grid on the real models (~20-30 min + first download)'
+	@echo '  bench-full     all implemented stages, full grid as reported (~1.5-2 h)'
 
 sysinfo:
 	$(PY) -m bench sysinfo --save
@@ -46,3 +54,15 @@ plots:
 
 tiny-model:
 	$(PY) -m bench tiny-model
+
+bench:
+	$(PY) -m bench run $(STAGE) --tier $(TIER)
+
+bench-tiny:
+	$(PY) -m bench run $(STAGES) --tier tiny
+
+bench-quick:
+	$(PY) -m bench run $(STAGES) --tier quick
+
+bench-full:
+	$(PY) -m bench run $(STAGES) --tier full

@@ -1,0 +1,5 @@
+server,t,label,rss_mb,proc_cpu_percent,system_cpu_percent,busy_cores,cpu_mhz,per_core
+llama-f16-np1,0.503,warmup,586.8,572.6,54.8,6,2496,90 31 8 94 96 8 37 94 96 2 96 6
+llama-f16-np1,1.005,short/u1/r1,586.9,570.1,52.2,6,2496,92 31 11 96 96 8 4 92 96 4 94 2
+llama-f16-np1,1.506,short/u2/r1,587.7,558.3,50.8,6,2496,94 18 8 94 94 8 9 90 94 0 94 6
+llama-f16-np1,2.008,short/u2/r1,588.4,604.0,55.1,6,2496,100 13 10 100 100 25 6 100 100 4 100 4

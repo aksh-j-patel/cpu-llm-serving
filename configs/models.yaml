@@ -30,5 +30,5 @@ models:
 # Sets map to the reproduction tiers in docs/REPRODUCE.md. "@name" includes another set.
 sets:
   smoke: [qwen2.5-0.5b-hf, qwen2.5-0.5b-q4_k_m]
-  quick: ["@smoke", qwen2.5-1.5b-hf, qwen2.5-1.5b-q8_0, qwen2.5-1.5b-q4_k_m]
-  full: ["@quick", qwen2.5-1.5b-f16]
+  quick: ["@smoke", qwen2.5-1.5b-hf, qwen2.5-1.5b-f16, qwen2.5-1.5b-q8_0, qwen2.5-1.5b-q4_k_m]
+  full: ["@quick"]          # same files; the tiers differ in how many runs they do

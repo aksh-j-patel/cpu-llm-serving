@@ -78,6 +78,28 @@ def cmd_smoke(args: argparse.Namespace) -> int:
     return smoke.run(skip_download=args.skip_download)
 
 
+def cmd_run(args: argparse.Namespace) -> int:
+    from bench import models, runner
+
+    rc = 0
+    for stage in args.stage:
+        try:
+            rc |= runner.run_stage(stage, args.tier, plot=not args.no_plot)
+        except (runner.RunError, models.ModelError) as e:
+            print(f"ERROR: {e}", file=sys.stderr)
+            return 1
+    return rc
+
+
+def cmd_serve(args: argparse.Namespace) -> int:
+    from bench.baseline import server
+
+    argv = ["--model", args.model, "--host", args.host, "--port", str(args.port)]
+    if args.threads:
+        argv += ["--threads", str(args.threads)]
+    return server.main(argv)
+
+
 def cmd_tiny_model(args: argparse.Namespace) -> int:
     from bench.tinymodel import make_tiny_qwen2
 
@@ -125,6 +147,19 @@ def build_parser() -> argparse.ArgumentParser:
     s = sub.add_parser("smoke", help="end-to-end environment and engine check")
     s.add_argument("--skip-download", action="store_true", help="offline: skip model download and model runs")
     s.set_defaults(func=cmd_smoke)
+
+    s = sub.add_parser("run", help="run experiment stage(s) from configs/experiments.yaml")
+    s.add_argument("stage", nargs="+", help="e.g. s0_baseline s1_engine")
+    s.add_argument("--tier", default="quick", help="tiny | smoke | quick | full (default: quick)")
+    s.add_argument("--no-plot", action="store_true")
+    s.set_defaults(func=cmd_run)
+
+    s = sub.add_parser("serve-baseline", help="run the transformers baseline server in the foreground")
+    s.add_argument("--model", required=True)
+    s.add_argument("--host", default="0.0.0.0")
+    s.add_argument("--port", type=int, default=8000)
+    s.add_argument("--threads", type=int, default=None)
+    s.set_defaults(func=cmd_serve)
 
     s = sub.add_parser("tiny-model", help="write a tiny random Qwen2 GGUF for offline testing")
     s.add_argument("--out", default=str(paths.MODELS_DIR / "tiny" / "tiny-qwen2.gguf"))

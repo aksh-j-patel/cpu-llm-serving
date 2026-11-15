@@ -1,0 +1,141 @@
+{
+  "stage": "s1_engine",
+  "tier": "quick",
+  "workload": {
+    "max_tokens": 128,
+    "temperature": 0,
+    "seed": 42,
+    "ignore_eos": true,
+    "cache_prompt": false,
+    "prompt_classes": [
+      "short",
+      "long"
+    ],
+    "users": [
+      1,
+      4
+    ],
+    "requests_per_user": 1,
+    "warmup_requests": 1,
+    "repetitions": 2,
+    "cooldown_seconds": 15
+  },
+  "servers": [
+    {
+      "spec": {
+        "name": "llama-f16-np1",
+        "engine": "llama.cpp",
+        "model_path": "/workspace/models/qwen2.5-1.5b-f16/qwen2.5-1.5b-instruct-fp16.gguf",
+        "model_key": "qwen2.5-1.5b-f16",
+        "threads": null,
+        "parallel": 1,
+        "ctx_per_slot": 2048,
+        "cont_batching": true,
+        "extra_args": [],
+        "env": {},
+        "ready_timeout_s": 900.0
+      },
+      "command": [
+        "/opt/llama.cpp/bin/llama-server",
+        "-m",
+        "/workspace/models/qwen2.5-1.5b-f16/qwen2.5-1.5b-instruct-fp16.gguf",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "40351",
+        "-np",
+        "1",
+        "-c",
+        "2048",
+        "--alias",
+        "llama-f16-np1"
+      ],
+      "ready_s": 1.04,
+      "peak_rss_mb": 3841.4,
+      "model_lock": {
+        "repo": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+        "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+        "files": [
+          {
+            "filename": "qwen2.5-1.5b-instruct-fp16.gguf",
+            "size": 3560416288,
+            "sha256": "fc89e330deb3fd8fa560f1c0f35a1e2b8da96d59e13445559ed190307a6f5649",
+            "git_sha1": null
+          }
+        ]
+      },
+      "log_tail": "5.50.131.496 I slot print_timing: id  0 | task 2083 | prompt eval time =   13476.92 ms /  1056 tokens (   12.76 ms per token,    78.36 tokens per second)\n5.50.131.517 I slot print_timing: id  0 | task 2083 |        eval time =    9446.03 ms /   128 tokens (   74.38 ms per token,    13.44 tokens per second)\n5.50.131.517 I slot print_timing: id  0 | task 2083 |       total time =   22922.94 ms /  1184 tokens\n5.50.131.518 I slot print_timing: id  0 | task 2083 |    graphs reused =       2409\n5.50.131.519 I slot print_timing: id  0 | task 2083 |   graph reallocs =          0    /     0        (same size) / (changed size)\n5.50.131.606 I slot      release: id  0 | task 2083 | stop processing: n_tokens = 1183, truncated = 0\n5.50.131.630 I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 1183, t_last = 3110230789\n5.50.252.899 I slot launch_slot_: id  0 | task 2084 | processing task, is_child = 0\n6.11.478.930 I slot print_timing: id  0 | task 2084 | n_gen =    100, tg =  12.93 t/s, tg_3s =  13.06 t/s\n6.13.649.559 I slot print_timing: id  0 | task 2084 | prompt eval time =   13571.19 ms /  1058 tokens (   12.83 ms per token,    77.96 tokens per second)\n6.13.649.586 I slot print_timing: id  0 | task 2084 |        eval time =    9827.11 ms /   128 tokens (   77.38 ms per token,    12.92 tokens per second)\n6.13.649.587 I slot print_timing: id  0 | task 2084 |       total time =   23398.30 ms /  1186 tokens\n6.13.649.588 I slot print_timing: id  0 | task 2084 |    graphs reused =       2535\n6.13.649.589 I slot print_timing: id  0 | task 2084 |   graph reallocs =          0    /     0        (same size) / (changed size)\n6.13.649.717 I slot      release: id  0 | task 2084 | stop processing: n_tokens = 1185, truncated = 0"
+    }
+  ],
+  "duration_s": 373.9,
+  "sysinfo": {
+    "captured_utc": "2026-11-15T14:24:02+00:00",
+    "bench_version": "0.1.0",
+    "git": {
+      "commit": "d4dc0a17a6574de6b5b893c16d40d9ce130f257b",
+      "dirty": true
+    },
+    "os": {
+      "system": "Linux",
+      "release": "6.18.58.1-microsoft-standard-WSL2",
+      "version": "#1 SMP PREEMPT_DYNAMIC Tue Oct 27 00:24:11 UTC 2026",
+      "machine": "x86_64",
+      "wsl_kernel": true
+    },
+    "container": {
+      "in_container": true,
+      "cgroup_limits": {
+        "cpu.max": "max 100000",
+        "memory.max": "max"
+      }
+    },
+    "cpu": {
+      "model": "12th Gen Intel(R) Core(TM) i5-12450H",
+      "physical_cores": 6,
+      "logical_cpus": 12,
+      "usable_cpus": 12,
+      "max_mhz": null,
+      "current_mhz": 2496,
+      "flags": [
+        "sse4_2",
+        "avx",
+        "avx2",
+        "fma",
+        "f16c",
+        "avx_vnni"
+      ],
+      "hybrid": null
+    },
+    "memory": {
+      "total_gb": 11.68,
+      "available_gb": 9.91
+    },
+    "python": {
+      "version": "3.12.16",
+      "implementation": "CPython"
+    },
+    "packages": {
+      "torch": "2.14.1+cpu",
+      "transformers": "5.23.0",
+      "huggingface-hub": "2.4.0",
+      "tokenizers": "0.23.3",
+      "fastapi": "0.163.0",
+      "uvicorn": "0.54.0",
+      "httpx": "0.28.1",
+      "numpy": "2.5.4",
+      "pandas": "3.1.1",
+      "psutil": "7.2.2"
+    },
+    "torch_threads": {
+      "intra_op": 6,
+      "inter_op": 6
+    },
+    "llama_cpp": "b12407 (e574a17, GGML_NATIVE=ON) | 1.0.0 (build 12407, commit e574a17)",
+    "env": {}
+  },
+  "files": {
+    "requests": "s1_engine_quick_requests_20261115T144009Z.csv",
+    "summary": "s1_engine_quick_summary_20261115T144009Z.csv",
+    "resources": "s1_engine_quick_resources_20261115T144009Z.csv"
+  }
+}

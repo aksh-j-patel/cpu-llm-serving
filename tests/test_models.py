@@ -55,7 +55,7 @@ def test_repo_config_sets_resolve():
     smoke = models.resolve_set("smoke", cfg)
     quick = models.resolve_set("quick", cfg)
     full = models.resolve_set("full", cfg)
-    assert set(smoke) < set(quick) < set(full) == set(cfg["models"])
+    assert set(smoke) < set(quick) <= set(full) == set(cfg["models"])
     assert len(full) == len(set(full))
 
 

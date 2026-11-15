@@ -40,3 +40,6 @@ desktop.ini
 
 # NOTE: results/raw/*.csv|json and results/plots/*.png are committed on purpose:
 # `make plots` rebuilds every report figure from them.
+
+# Server logs from benchmark runs (the last lines are also stored in each run's JSON)
+results/logs/

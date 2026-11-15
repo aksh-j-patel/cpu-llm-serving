@@ -234,14 +234,14 @@ def human(n: float) -> str:
     return f"{n:.2f} GB"
 
 
-def download(set_name: str, models_dir: Path | None = None) -> list[FileSpec]:
-    """Download (if needed) and verify every file of a model set. Raises ModelError on failure."""
+def download_keys(keys: list[str], label: str, models_dir: Path | None = None) -> list[FileSpec]:
+    """Download (if needed) and verify the files of the given models. Raises ModelError on failure."""
     from huggingface_hub import hf_hub_download
 
     models_dir = models_dir or paths.MODELS_DIR
-    specs = file_specs(resolve_set(set_name))
+    specs = file_specs(keys)
     total = sum(s.size for s in specs)
-    print(f"Model set '{set_name}': {len(specs)} files, {human(total)}")
+    print(f"Models '{label}': {len(specs)} files, {human(total)}")
     failures = []
     for s in specs:
         ok, reason = verify_file(s, models_dir)
@@ -258,6 +258,19 @@ def download(set_name: str, models_dir: Path | None = None) -> list[FileSpec]:
     if failures:
         raise ModelError("verification failed:\n  " + "\n  ".join(failures))
     return specs
+
+
+def download(set_name: str, models_dir: Path | None = None) -> list[FileSpec]:
+    """Download (if needed) and verify every file of a model set."""
+    return download_keys(resolve_set(set_name), set_name, models_dir)
+
+
+def lock_entry(key: str) -> dict[str, Any] | None:
+    """The lock entry (repo, revision, file hashes) for one model, for result metadata."""
+    try:
+        return load_lock()["models"].get(key)
+    except ModelError:
+        return None
 
 
 def verify(set_name: str, models_dir: Path | None = None) -> bool:

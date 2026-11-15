@@ -1,60 +1,59 @@
-# Parameter grid for the experiment stages in docs/PROJECT_PLAN.md.
-# Draft values: adjust once the baseline is running.
-
-model:
-  name: Qwen2.5-1.5B-Instruct
-  hf_repo: Qwen/Qwen2.5-1.5B-Instruct
-  gguf_repo: Qwen/Qwen2.5-1.5B-Instruct-GGUF
-  fallback: Qwen2.5-0.5B-Instruct   # if FP32 baseline does not fit in free RAM
+# Experiment definitions (see docs/PROJECT_PLAN.md section 4).
+#
+#   make bench STAGE=s0_baseline TIER=quick
+#
+# Settings are merged in this order: workload -> stage.workload -> tier.overrides
+# -> tier.stage_overrides[stage]. Each stage lists the servers to start; every server is
+# benchmarked over prompt_classes x users x repetitions.
 
 workload:
-  max_tokens: 128
-  temperature: 0
+  max_tokens: 128          # output tokens per request (fixed: ignore_eos)
+  temperature: 0           # greedy decoding
   seed: 42
-  prompt_classes: [short, medium, long]
-  warmup_runs: 1
+  ignore_eos: true
+  cache_prompt: false      # llama.cpp prompt-cache reuse; only stage S5 turns it on
+  prompt_classes: [short, medium, long]   # configs/prompts.json
+  users: [1, 4]            # concurrent closed-loop users
+  requests_per_user: 2
+  warmup_requests: 1       # per server, discarded
   repetitions: 5
-  cooldown_seconds: 60
+  cooldown_seconds: 60     # pause between configurations (thermal recovery)
 
 stages:
   s0_baseline:
-    engine: transformers
-    precision: fp32
-    concurrency: [1, 4]
-  s1_engine:
-    engine: llama-server
-    precision: [f16]
-    threads: default
-    parallel_slots: 1
-  s2_quantisation:
-    precision: [f16, q8_0, q4_k_m]
-  s3_threading:
-    threads: [1, 2, 4, 6, 8, 12]
-    affinity: [all_cores, performance_cores_only]
-  s4_concurrency:
-    parallel_slots: [1, 2, 4, 8]
-    continuous_batching: [true, false]
-    users: [1, 2, 4, 8, 16]
-  s5_caching:
-    prompt_cache: [true, false]
-    shared_system_prompt_tokens: 500
-  s6_memory:
-    ctx_per_slot: [1024, 2048, 4096]
-    kv_cache_type: [f16, q8_0]
-    weight_loading: [mmap, mlock]
-  s7_speculative:            # stretch goal
-    draft_model: Qwen2.5-0.5B-Instruct (q4_k_m)
-    draft_max: [4, 8, 16]
-    draftless: [none, ngram-simple]
+    description: "Naive baseline: FastAPI + transformers, FP32, default threads, one request at a time"
+    servers:
+      - name: baseline-fp32
+        engine: baseline
+        model: qwen2.5-1.5b-hf
 
-tiers:                       # evaluator reproduction tiers (see docs/PROJECT_PLAN.md section 8)
-  smoke:
-    model: Qwen2.5-0.5B-Instruct
-    stages: [s0_baseline, s1_engine]
-    repetitions: 1
-  quick:
-    stages: [s0_baseline, s1_engine, s2_quantisation, s3_threading, s4_concurrency]
-    repetitions: 3
-  full:
-    stages: all
-    repetitions: 5
+  s1_engine:
+    description: "Engine switch only: same weights as F16 GGUF in llama-server, 1 slot, default threads"
+    servers:
+      - name: llama-f16-np1
+        engine: llama.cpp
+        model: qwen2.5-1.5b-f16
+        parallel: 1
+
+  # ---- Planned (weeks 4-7); parameters kept here so the plan and the grid stay in one place.
+  # s2_quantisation:  precision [f16, q8_0, q4_k_m]
+  # s3_threading:     threads [1, 2, 4, 6, 8, 12]; affinity [all_cores, performance_cores_only]
+  # s4_concurrency:   parallel_slots [1, 2, 4, 8]; continuous_batching [true, false]; users [1, 2, 4, 8, 16]
+  # s5_caching:       cache_prompt [true, false]; shared system prompt ~500 tokens
+  # s6_memory:        ctx_per_slot [1024, 2048, 4096]; kv_cache_type [f16, q8_0]; weights [mmap, mlock]
+  # s7_speculative:   draft qwen2.5-0.5b-q4_k_m; draft_max [4, 8, 16]; draftless [none, ngram-simple]
+
+tiers:
+  tiny:                     # offline: random-weight tiny models, seconds per stage (tests, debugging)
+    model_map: {qwen2.5-1.5b-hf: tiny-hf, qwen2.5-1.5b-f16: tiny-gguf}
+    overrides: {max_tokens: 16, prompt_classes: [short, long], users: [1, 2], requests_per_user: 1,
+                repetitions: 1, cooldown_seconds: 0}
+  smoke:                    # 0.5B models, a few minutes (smoke test, CI)
+    model_map: {qwen2.5-1.5b-hf: qwen2.5-0.5b-hf, qwen2.5-1.5b-f16: qwen2.5-0.5b-q4_k_m}
+    overrides: {max_tokens: 16, prompt_classes: [short], users: [1, 2], requests_per_user: 1,
+                repetitions: 1, cooldown_seconds: 0}
+  quick:                    # real models, reduced grid (evaluators, ~10-20 min per stage)
+    overrides: {prompt_classes: [short, long], requests_per_user: 1, repetitions: 2,
+                cooldown_seconds: 15}
+  full:                     # the author's reported numbers
+    overrides: {}

@@ -1,0 +1,173 @@
+{
+  "stage": "s0_baseline",
+  "tier": "quick",
+  "workload": {
+    "max_tokens": 128,
+    "temperature": 0,
+    "seed": 42,
+    "ignore_eos": true,
+    "cache_prompt": false,
+    "prompt_classes": [
+      "short",
+      "long"
+    ],
+    "users": [
+      1,
+      4
+    ],
+    "requests_per_user": 1,
+    "warmup_requests": 1,
+    "repetitions": 2,
+    "cooldown_seconds": 15
+  },
+  "servers": [
+    {
+      "spec": {
+        "name": "baseline-fp32",
+        "engine": "baseline",
+        "model_path": "/workspace/models/qwen2.5-1.5b-hf",
+        "model_key": "qwen2.5-1.5b-hf",
+        "threads": null,
+        "parallel": 1,
+        "ctx_per_slot": 2048,
+        "cont_batching": true,
+        "extra_args": [],
+        "env": {},
+        "ready_timeout_s": 900.0
+      },
+      "command": [
+        "/usr/local/bin/python",
+        "-m",
+        "bench.baseline.server",
+        "--model",
+        "/workspace/models/qwen2.5-1.5b-hf",
+        "--port",
+        "44721",
+        "--name",
+        "baseline-fp32"
+      ],
+      "ready_s": 27.38,
+      "peak_rss_mb": 6679.0,
+      "model_lock": {
+        "repo": "Qwen/Qwen2.5-1.5B-Instruct",
+        "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+        "files": [
+          {
+            "filename": "config.json",
+            "size": 660,
+            "sha256": null,
+            "git_sha1": "f81ead14ab072d65a07817f83a3ee0e5a1890d10"
+          },
+          {
+            "filename": "generation_config.json",
+            "size": 242,
+            "sha256": null,
+            "git_sha1": "dfc11073787daf1b0f9c0f1499487ab5f4c93738"
+          },
+          {
+            "filename": "model.safetensors",
+            "size": 3087467144,
+            "sha256": "dd924a11b4c220f385b51ffa522daea7c9f3d850e31b162bb5661df483c6d3ee",
+            "git_sha1": null
+          },
+          {
+            "filename": "tokenizer.json",
+            "size": 7031645,
+            "sha256": null,
+            "git_sha1": "443909a61d429dff23010e5bddd28ff530edda00"
+          },
+          {
+            "filename": "tokenizer_config.json",
+            "size": 7305,
+            "sha256": null,
+            "git_sha1": "07bfe0640cb5a0037f9322287fbfc682806cf672"
+          },
+          {
+            "filename": "vocab.json",
+            "size": 2776833,
+            "sha256": null,
+            "git_sha1": "4783fe10ac3adce15ac8f358ef5462739852c569"
+          },
+          {
+            "filename": "merges.txt",
+            "size": 1671839,
+            "sha256": null,
+            "git_sha1": "20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0"
+          }
+        ]
+      },
+      "log_tail": "Loading weights:  76%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c  | 256/338 [00:11<00:07, 10.61it/s]\nLoading weights:  79%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589  | 268/338 [00:12<00:05, 13.10it/s]\nLoading weights:  80%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589  | 270/338 [00:12<00:05, 12.00it/s]\nLoading weights:  80%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588  | 272/338 [00:12<00:05, 11.70it/s]\nLoading weights:  83%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258e | 280/338 [00:13<00:05, 10.73it/s]\nLoading weights:  83%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258e | 282/338 [00:13<00:05, 10.63it/s]\nLoading weights:  86%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b | 292/338 [00:14<00:02, 16.51it/s]\nLoading weights:  87%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b | 295/338 [00:14<00:03, 10.87it/s]\nLoading weights:  90%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589 | 304/338 [00:15<00:03, 10.54it/s]\nLoading weights:  91%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588 | 306/338 [00:16<00:03,  8.76it/s]\nLoading weights:  93%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258e| 316/338 [00:17<00:02,  8.09it/s]\nLoading weights:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 328/338 [00:18<00:00, 11.20it/s]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 338/338 [00:18<00:00, 18.65it/s]\nmodel loaded: {\"engine\": \"transformers\", \"model_dir\": \"/workspace/models/qwen2.5-1.5b-hf\", \"dtype\": \"float32\", \"torch_threads\": 6, \"load_s\": 21.06, \"parameters\": 1543714304}\n[transformers] The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details."
+    }
+  ],
+  "duration_s": 720.5,
+  "sysinfo": {
+    "captured_utc": "2026-11-15T13:58:46+00:00",
+    "bench_version": "0.1.0",
+    "git": {
+      "commit": "d4dc0a17a6574de6b5b893c16d40d9ce130f257b",
+      "dirty": true
+    },
+    "os": {
+      "system": "Linux",
+      "release": "6.18.58.1-microsoft-standard-WSL2",
+      "version": "#1 SMP PREEMPT_DYNAMIC Tue Oct 27 00:24:11 UTC 2026",
+      "machine": "x86_64",
+      "wsl_kernel": true
+    },
+    "container": {
+      "in_container": true,
+      "cgroup_limits": {
+        "cpu.max": "max 100000",
+        "memory.max": "max"
+      }
+    },
+    "cpu": {
+      "model": "12th Gen Intel(R) Core(TM) i5-12450H",
+      "physical_cores": 6,
+      "logical_cpus": 12,
+      "usable_cpus": 12,
+      "max_mhz": null,
+      "current_mhz": 2496,
+      "flags": [
+        "sse4_2",
+        "avx",
+        "avx2",
+        "fma",
+        "f16c",
+        "avx_vnni"
+      ],
+      "hybrid": null
+    },
+    "memory": {
+      "total_gb": 11.68,
+      "available_gb": 10.22
+    },
+    "python": {
+      "version": "3.12.16",
+      "implementation": "CPython"
+    },
+    "packages": {
+      "torch": "2.14.1+cpu",
+      "transformers": "5.23.0",
+      "huggingface-hub": "2.4.0",
+      "tokenizers": "0.23.3",
+      "fastapi": "0.163.0",
+      "uvicorn": "0.54.0",
+      "httpx": "0.28.1",
+      "numpy": "2.5.4",
+      "pandas": "3.1.1",
+      "psutil": "7.2.2"
+    },
+    "torch_threads": {
+      "intra_op": 6,
+      "inter_op": 6
+    },
+    "llama_cpp": "b12407 (e574a17, GGML_NATIVE=ON) | 1.0.0 (build 12407, commit e574a17)",
+    "env": {}
+  },
+  "files": {
+    "requests": "s0_baseline_quick_requests_20261115T141159Z.csv",
+    "summary": "s0_baseline_quick_summary_20261115T141159Z.csv",
+    "resources": "s0_baseline_quick_resources_20261115T141159Z.csv"
+  }
+}

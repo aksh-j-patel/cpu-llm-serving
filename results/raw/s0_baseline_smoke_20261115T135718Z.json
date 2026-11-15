@@ -1,0 +1,172 @@
+{
+  "stage": "s0_baseline",
+  "tier": "smoke",
+  "workload": {
+    "max_tokens": 16,
+    "temperature": 0,
+    "seed": 42,
+    "ignore_eos": true,
+    "cache_prompt": false,
+    "prompt_classes": [
+      "short"
+    ],
+    "users": [
+      1,
+      2
+    ],
+    "requests_per_user": 1,
+    "warmup_requests": 1,
+    "repetitions": 1,
+    "cooldown_seconds": 0
+  },
+  "servers": [
+    {
+      "spec": {
+        "name": "baseline-fp32",
+        "engine": "baseline",
+        "model_path": "/workspace/models/qwen2.5-0.5b-hf",
+        "model_key": "qwen2.5-0.5b-hf",
+        "threads": null,
+        "parallel": 1,
+        "ctx_per_slot": 2048,
+        "cont_batching": true,
+        "extra_args": [],
+        "env": {},
+        "ready_timeout_s": 900.0
+      },
+      "command": [
+        "/usr/local/bin/python",
+        "-m",
+        "bench.baseline.server",
+        "--model",
+        "/workspace/models/qwen2.5-0.5b-hf",
+        "--port",
+        "36355",
+        "--name",
+        "baseline-fp32"
+      ],
+      "ready_s": 7.69,
+      "peak_rss_mb": 2352.6,
+      "model_lock": {
+        "repo": "Qwen/Qwen2.5-0.5B-Instruct",
+        "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+        "files": [
+          {
+            "filename": "config.json",
+            "size": 659,
+            "sha256": null,
+            "git_sha1": "0dbb161213629a23f0fc00ef286e6b1e366d180f"
+          },
+          {
+            "filename": "generation_config.json",
+            "size": 242,
+            "sha256": null,
+            "git_sha1": "dfc11073787daf1b0f9c0f1499487ab5f4c93738"
+          },
+          {
+            "filename": "model.safetensors",
+            "size": 988097824,
+            "sha256": "fdf756fa7fcbe7404d5c60e26bff1a0c8b8aa1f72ced49e7dd0210fe288fb7fe",
+            "git_sha1": null
+          },
+          {
+            "filename": "tokenizer.json",
+            "size": 7031645,
+            "sha256": null,
+            "git_sha1": "443909a61d429dff23010e5bddd28ff530edda00"
+          },
+          {
+            "filename": "tokenizer_config.json",
+            "size": 7305,
+            "sha256": null,
+            "git_sha1": "07bfe0640cb5a0037f9322287fbfc682806cf672"
+          },
+          {
+            "filename": "vocab.json",
+            "size": 2776833,
+            "sha256": null,
+            "git_sha1": "4783fe10ac3adce15ac8f358ef5462739852c569"
+          },
+          {
+            "filename": "merges.txt",
+            "size": 1671839,
+            "sha256": null,
+            "git_sha1": "20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0"
+          }
+        ]
+      },
+      "log_tail": "\nLoading weights:   0%|          | 0/290 [00:00<?, ?it/s]\nLoading weights:   0%|          | 1/290 [00:00<01:34,  3.06it/s]\nLoading weights:  18%|\u2588\u258a        | 53/290 [00:00<00:01, 138.14it/s]\nLoading weights:  31%|\u2588\u2588\u2588       | 89/290 [00:00<00:01, 187.41it/s]\nLoading weights:  45%|\u2588\u2588\u2588\u2588\u258c     | 131/290 [00:00<00:00, 236.39it/s]\nLoading weights:  55%|\u2588\u2588\u2588\u2588\u2588\u258c    | 160/290 [00:00<00:00, 231.62it/s]\nLoading weights:  64%|\u2588\u2588\u2588\u2588\u2588\u2588\u258d   | 187/290 [00:00<00:00, 226.46it/s]\nLoading weights:  73%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258e  | 212/290 [00:01<00:00, 201.80it/s]\nLoading weights:  81%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588  | 234/290 [00:01<00:00, 191.59it/s]\nLoading weights:  89%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a | 257/290 [00:01<00:00, 181.53it/s]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 290/290 [00:01<00:00, 196.38it/s]\nmodel loaded: {\"engine\": \"transformers\", \"model_dir\": \"/workspace/models/qwen2.5-0.5b-hf\", \"dtype\": \"float32\", \"torch_threads\": 6, \"load_s\": 3.43, \"parameters\": 494032768}\n[transformers] The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details."
+    }
+  ],
+  "duration_s": 14.1,
+  "sysinfo": {
+    "captured_utc": "2026-11-15T13:57:17+00:00",
+    "bench_version": "0.1.0",
+    "git": {
+      "commit": "d4dc0a17a6574de6b5b893c16d40d9ce130f257b",
+      "dirty": true
+    },
+    "os": {
+      "system": "Linux",
+      "release": "6.18.58.1-microsoft-standard-WSL2",
+      "version": "#1 SMP PREEMPT_DYNAMIC Tue Oct 27 00:24:11 UTC 2026",
+      "machine": "x86_64",
+      "wsl_kernel": true
+    },
+    "container": {
+      "in_container": true,
+      "cgroup_limits": {
+        "cpu.max": "max 100000",
+        "memory.max": "max"
+      }
+    },
+    "cpu": {
+      "model": "12th Gen Intel(R) Core(TM) i5-12450H",
+      "physical_cores": 6,
+      "logical_cpus": 12,
+      "usable_cpus": 12,
+      "max_mhz": null,
+      "current_mhz": 2496,
+      "flags": [
+        "sse4_2",
+        "avx",
+        "avx2",
+        "fma",
+        "f16c",
+        "avx_vnni"
+      ],
+      "hybrid": null
+    },
+    "memory": {
+      "total_gb": 11.68,
+      "available_gb": 10.18
+    },
+    "python": {
+      "version": "3.12.16",
+      "implementation": "CPython"
+    },
+    "packages": {
+      "torch": "2.14.1+cpu",
+      "transformers": "5.23.0",
+      "huggingface-hub": "2.4.0",
+      "tokenizers": "0.23.3",
+      "fastapi": "0.163.0",
+      "uvicorn": "0.54.0",
+      "httpx": "0.28.1",
+      "numpy": "2.5.4",
+      "pandas": "3.1.1",
+      "psutil": "7.2.2"
+    },
+    "torch_threads": {
+      "intra_op": 6,
+      "inter_op": 6
+    },
+    "llama_cpp": "b12407 (e574a17, GGML_NATIVE=ON) | 1.0.0 (build 12407, commit e574a17)",
+    "env": {}
+  },
+  "files": {
+    "requests": "s0_baseline_smoke_requests_20261115T135718Z.csv",
+    "summary": "s0_baseline_smoke_summary_20261115T135718Z.csv",
+    "resources": "s0_baseline_smoke_resources_20261115T135718Z.csv"
+  }
+}

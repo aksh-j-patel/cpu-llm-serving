@@ -1,4 +1,5 @@
-"""Build a tiny random-weight Qwen2 model in GGUF format, with the real Qwen2 tokenizer.
+"""Build tiny random-weight Qwen2 models (GGUF for llama.cpp, Hugging Face format for the
+baseline) that use the real Qwen2 tokenizer.
 
 Its output is gibberish, but it exercises exactly the same llama.cpp code paths as the real
 model (loading, tokenisation, prompt processing, generation, the HTTP server). That lets the
@@ -16,7 +17,7 @@ TOKENIZER_PREFIX = "tokenizer."
 
 
 def make_tiny_qwen2(out_path: Path, vocab_gguf: Path, n_embd: int = 64, n_layer: int = 2,
-                    n_head: int = 4, n_head_kv: int = 2, n_ff: int = 128, n_ctx: int = 1024,
+                    n_head: int = 4, n_head_kv: int = 2, n_ff: int = 128, n_ctx: int = 4096,
                     seed: int = 0) -> Path:
     import gguf
 
@@ -81,3 +82,40 @@ def make_tiny_qwen2(out_path: Path, vocab_gguf: Path, n_embd: int = 64, n_layer:
     w.write_tensors_to_file()
     w.close()
     return out_path
+
+
+def make_tiny_hf(out_dir: Path, vocab_gguf: Path, n_embd: int = 64, n_layer: int = 2, n_head: int = 4,
+                 n_head_kv: int = 2, n_ff: int = 128, n_ctx: int = 4096, seed: int = 0) -> Path:
+    """Same architecture and tokenizer as make_tiny_qwen2, saved in Hugging Face format."""
+    import torch
+    from transformers import AutoTokenizer, Qwen2Config, Qwen2ForCausalLM
+
+    tok = AutoTokenizer.from_pretrained(vocab_gguf.parent, gguf_file=vocab_gguf.name)
+    torch.manual_seed(seed)
+    cfg = Qwen2Config(vocab_size=len(tok), hidden_size=n_embd, intermediate_size=n_ff,
+                      num_hidden_layers=n_layer, num_attention_heads=n_head,
+                      num_key_value_heads=n_head_kv, max_position_embeddings=n_ctx,
+                      tie_word_embeddings=True, bos_token_id=tok.bos_token_id,
+                      eos_token_id=tok.eos_token_id)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    Qwen2ForCausalLM(cfg).save_pretrained(out_dir)
+    tok.save_pretrained(out_dir)
+    return out_dir
+
+
+TINY_KEYS = {"tiny-gguf", "tiny-hf"}
+
+
+def ensure_tiny(key: str, models_dir: Path, vocab_gguf: Path) -> Path:
+    """Path of a tiny model (built on first use) for the offline 'tiny' tier and tests."""
+    if key == "tiny-gguf":
+        path = models_dir / "tiny" / "tiny-qwen2.gguf"
+        if not path.exists():
+            make_tiny_qwen2(path, vocab_gguf)
+        return path
+    if key == "tiny-hf":
+        path = models_dir / "tiny" / "hf"
+        if not (path / "config.json").exists():
+            make_tiny_hf(path, vocab_gguf)
+        return path
+    raise KeyError(key)

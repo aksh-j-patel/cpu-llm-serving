@@ -1,7 +1,7 @@
 # Project Plan: High-Performance LLM Inference and Serving on a CPU-Only Laptop
 
 Capstone Project for AI Engineering and ML Ops (suggested project #2)
-Author: Aksh Patel | Drafted: 15 Nov 2026 | Status: draft v2.2 (week 1 implemented) | Submission target: 15 Jan 2027
+Author: Aksh Patel | Drafted: 15 Nov 2026 | Status: draft v2.3 (weeks 1-2 implemented) | Submission target: 15 Jan 2027
 Repository (public, proposed name): https://github.com/aksh-j-patel/cpu-llm-serving
 
 ## 1. Objective
@@ -118,8 +118,8 @@ will differ. The package is designed so that (a) the author's exact figures can 
 |---|---|---|---|
 | 1. Regenerate plots | `make plots` | Rebuilds every figure and table in the report from the committed raw CSVs | Under 1 minute, no model download |
 | 2. Smoke test | `make smoke` | Downloads the 0.5B model, runs both engines briefly, checks the pipeline end to end | Under 15 minutes on a 4-core machine, roughly 1.5 GB |
-| 3. Quick benchmark | `make bench-quick` | Reduced grid of S0 to S4 on the evaluator's hardware, producing the same plots | About 1 hour, roughly 8 GB |
-| (4. Full benchmark) | `make bench-full` | Entire grid as run by the author | Several hours, roughly 11 GB |
+| 3. Quick benchmark | `make bench-quick` | Reduced grid of S0 to S4 on the evaluator's hardware, producing the same plots | About 1 hour, 11.1 GB |
+| (4. Full benchmark) | `make bench-full` | Entire grid as run by the author | Several hours, 11.1 GB |
 
 **What is pinned:**
 - Base image by digest; Python version; dependency lock file with hashes (pip-tools).

@@ -1,0 +1,4 @@
+server,engine,model,prompt_class,users,repetition,user,seq,prompt_id,ok,error,t_start,ttft_s,e2e_s,prompt_tokens,completion_tokens,chunks,finish_reason,tpot_s,server_prompt_ms,server_predicted_ms,server_prompt_per_second,server_predicted_per_second
+llama-f16-np1,llama.cpp,qwen2.5-0.5b-q4_k_m,short,1,1,0,0,short-0,True,,0.00773072799998431,0.3058943050000096,0.5250256270000193,44,16,16,length,0.014608754800000649,286.219,214.578,153.72843871301347,69.90465005732182
+llama-f16-np1,llama.cpp,qwen2.5-0.5b-q4_k_m,short,2,1,0,0,short-1,True,,0.006910261000001583,0.30698532400001,0.5311709419999886,43,16,16,length,0.01494570786666524,275.105,218.234,156.30395667108922,68.7335612232741
+llama-f16-np1,llama.cpp,qwen2.5-0.5b-q4_k_m,short,2,1,1,0,short-2,True,,0.01539152399999466,0.7812984280000137,0.9825970410000195,41,16,16,length,0.013419907533333723,262.963,197.371,155.915470997821,75.99900694630924
