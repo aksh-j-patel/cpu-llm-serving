@@ -1,0 +1,150 @@
+{
+  "models": {
+    "qwen2.5-0.5b-hf": {
+      "repo": "Qwen/Qwen2.5-0.5B-Instruct",
+      "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "files": [
+        {
+          "filename": "config.json",
+          "size": 659,
+          "sha256": null,
+          "git_sha1": "0dbb161213629a23f0fc00ef286e6b1e366d180f"
+        },
+        {
+          "filename": "generation_config.json",
+          "size": 242,
+          "sha256": null,
+          "git_sha1": "dfc11073787daf1b0f9c0f1499487ab5f4c93738"
+        },
+        {
+          "filename": "model.safetensors",
+          "size": 988097824,
+          "sha256": "fdf756fa7fcbe7404d5c60e26bff1a0c8b8aa1f72ced49e7dd0210fe288fb7fe",
+          "git_sha1": null
+        },
+        {
+          "filename": "tokenizer.json",
+          "size": 7031645,
+          "sha256": null,
+          "git_sha1": "443909a61d429dff23010e5bddd28ff530edda00"
+        },
+        {
+          "filename": "tokenizer_config.json",
+          "size": 7305,
+          "sha256": null,
+          "git_sha1": "07bfe0640cb5a0037f9322287fbfc682806cf672"
+        },
+        {
+          "filename": "vocab.json",
+          "size": 2776833,
+          "sha256": null,
+          "git_sha1": "4783fe10ac3adce15ac8f358ef5462739852c569"
+        },
+        {
+          "filename": "merges.txt",
+          "size": 1671839,
+          "sha256": null,
+          "git_sha1": "20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0"
+        }
+      ]
+    },
+    "qwen2.5-0.5b-q4_k_m": {
+      "repo": "Qwen/Qwen2.5-0.5B-Instruct-GGUF",
+      "revision": "9217f5db79a29953eb74d5343926648285ec7e67",
+      "files": [
+        {
+          "filename": "qwen2.5-0.5b-instruct-q4_k_m.gguf",
+          "size": 491400032,
+          "sha256": "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db",
+          "git_sha1": null
+        }
+      ]
+    },
+    "qwen2.5-1.5b-f16": {
+      "repo": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+      "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+      "files": [
+        {
+          "filename": "qwen2.5-1.5b-instruct-fp16.gguf",
+          "size": 3560416288,
+          "sha256": "fc89e330deb3fd8fa560f1c0f35a1e2b8da96d59e13445559ed190307a6f5649",
+          "git_sha1": null
+        }
+      ]
+    },
+    "qwen2.5-1.5b-hf": {
+      "repo": "Qwen/Qwen2.5-1.5B-Instruct",
+      "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+      "files": [
+        {
+          "filename": "config.json",
+          "size": 660,
+          "sha256": null,
+          "git_sha1": "f81ead14ab072d65a07817f83a3ee0e5a1890d10"
+        },
+        {
+          "filename": "generation_config.json",
+          "size": 242,
+          "sha256": null,
+          "git_sha1": "dfc11073787daf1b0f9c0f1499487ab5f4c93738"
+        },
+        {
+          "filename": "model.safetensors",
+          "size": 3087467144,
+          "sha256": "dd924a11b4c220f385b51ffa522daea7c9f3d850e31b162bb5661df483c6d3ee",
+          "git_sha1": null
+        },
+        {
+          "filename": "tokenizer.json",
+          "size": 7031645,
+          "sha256": null,
+          "git_sha1": "443909a61d429dff23010e5bddd28ff530edda00"
+        },
+        {
+          "filename": "tokenizer_config.json",
+          "size": 7305,
+          "sha256": null,
+          "git_sha1": "07bfe0640cb5a0037f9322287fbfc682806cf672"
+        },
+        {
+          "filename": "vocab.json",
+          "size": 2776833,
+          "sha256": null,
+          "git_sha1": "4783fe10ac3adce15ac8f358ef5462739852c569"
+        },
+        {
+          "filename": "merges.txt",
+          "size": 1671839,
+          "sha256": null,
+          "git_sha1": "20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0"
+        }
+      ]
+    },
+    "qwen2.5-1.5b-q4_k_m": {
+      "repo": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+      "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+      "files": [
+        {
+          "filename": "qwen2.5-1.5b-instruct-q4_k_m.gguf",
+          "size": 1117320736,
+          "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+          "git_sha1": null
+        }
+      ]
+    },
+    "qwen2.5-1.5b-q8_0": {
+      "repo": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+      "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+      "files": [
+        {
+          "filename": "qwen2.5-1.5b-instruct-q8_0.gguf",
+          "size": 1894532128,
+          "sha256": "d7efb072e7724d25048a4fda0a3e10b04bdef5d06b1403a1c93bd9f1240a63c8",
+          "git_sha1": null
+        }
+      ]
+    }
+  },
+  "generated_utc": "2026-11-15T12:13:15+00:00",
+  "huggingface_hub": "2.4.0"
+}

@@ -1,0 +1,11 @@
+# Force LF line endings everywhere. The Dockerfile, Makefile and CI workflow run on Linux,
+# where Windows CRLF endings cause errors; this also keeps files identical in the
+# Docker bind mount.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.gguf binary
+*.safetensors binary

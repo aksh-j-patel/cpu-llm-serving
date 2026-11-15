@@ -1,9 +1,42 @@
+# --- Large / downloadable artefacts (models are fetched by `make download`, pinned in configs/models.lock.json)
 models/
-.venv/
-__pycache__/
-*.pyc
 *.gguf
 *.safetensors
-results/raw/*.tmp
-.env
+
+# --- Course material (not mine to publish)
 assets/
+
+# --- Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# --- Secrets and local configuration
+.env
+.env.*
+*.pem
+*.key
+.claude/settings.local.json
+
+# --- Editors, OS, temp files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+*.tmp
+*.swp
+
+# NOTE: results/raw/*.csv|json and results/plots/*.png are committed on purpose:
+# `make plots` rebuilds every report figure from them.

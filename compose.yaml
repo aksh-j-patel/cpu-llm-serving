@@ -1,0 +1,24 @@
+# docker compose build            # once (and after Dockerfile / requirements changes)
+# docker compose run --rm bench make smoke
+#
+# The repository is mounted at /workspace, so code edits need no rebuild. Model files live
+# in a named Docker volume by default: on Windows and macOS that keeps them on the VM's own
+# disk, which loads much faster than a folder shared from the host. Set MODELS_VOLUME=./models
+# to use the repository folder instead (CI does this so the files can be cached).
+
+services:
+  bench:
+    build:
+      context: .
+    image: cpu-llm-serving:dev
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - ${MODELS_VOLUME:-models}:/workspace/models
+    ulimits:
+      memlock:          # lets llama.cpp lock weights in RAM (--mlock) in the memory experiments
+        soft: -1
+        hard: -1
+
+volumes:
+  models:

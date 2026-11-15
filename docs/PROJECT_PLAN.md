@@ -1,7 +1,7 @@
 # Project Plan: High-Performance LLM Inference and Serving on a CPU-Only Laptop
 
 Capstone Project for AI Engineering and ML Ops (suggested project #2)
-Author: Aksh Patel | Drafted: 15 Nov 2026 | Status: draft v2.1 | Submission target: 15 Jan 2027
+Author: Aksh Patel | Drafted: 15 Nov 2026 | Status: draft v2.2 (week 1 implemented) | Submission target: 15 Jan 2027
 Repository (public, proposed name): https://github.com/aksh-j-patel/cpu-llm-serving
 
 ## 1. Objective
@@ -38,7 +38,8 @@ about 77 GB/s. Week 1 measures the real figure with the STREAM benchmark rather 
 | Baseline engine | Hugging Face `transformers` + PyTorch (CPU wheel), FP32, behind FastAPI | Represents the "naive" deployment most tutorials produce |
 | Optimised engine | llama.cpp `llama-server`, pinned to one release tag and built from source | Quantised GGUF, thread control, parallel slots, continuous batching, prompt caching, speculative decoding |
 | Load generator | Custom `asyncio` + `httpx` client with streaming | Exact time-to-first-token and per-request latency |
-| Orchestration | One Python CLI (`python -m bench <stage>`) plus a Makefile inside the container | Same code path on Windows, Linux and macOS |
+| Orchestration | One Python CLI (`python -m bench <command>`) plus a Makefile inside the container | Same code path on Windows, Linux and macOS |
+| Pinned versions (week 1) | Python 3.12, PyTorch 2.14.1 CPU, transformers 5.23.0, llama.cpp b12407 (e574a17), STREAM 6703f75 | Recorded in every result file |
 | Profiling | PyTorch profiler, py-spy, psutil, llama.cpp timings, `llama-bench`, STREAM | See section 6 |
 | Plots | matplotlib, generated from committed CSVs by script | Reproducible figures |
 
@@ -116,14 +117,17 @@ will differ. The package is designed so that (a) the author's exact figures can 
 | Tier | Command (planned) | What it does | Target time / download |
 |---|---|---|---|
 | 1. Regenerate plots | `make plots` | Rebuilds every figure and table in the report from the committed raw CSVs | Under 1 minute, no model download |
-| 2. Smoke test | `make smoke` | Downloads the 0.5B model, runs baseline and optimised servers briefly, checks the pipeline end to end | Under 15 minutes on a 4-core machine, roughly 1.5 GB |
-| 3. Quick benchmark | `make bench-quick` | Reduced grid of S0 to S4 on the evaluator's hardware, producing the same plots | About 1 hour, roughly 5 GB |
-| (4. Full benchmark) | `make bench-full` | Entire grid as run by the author | Several hours, roughly 10 GB |
+| 2. Smoke test | `make smoke` | Downloads the 0.5B model, runs both engines briefly, checks the pipeline end to end | Under 15 minutes on a 4-core machine, roughly 1.5 GB |
+| 3. Quick benchmark | `make bench-quick` | Reduced grid of S0 to S4 on the evaluator's hardware, producing the same plots | About 1 hour, roughly 8 GB |
+| (4. Full benchmark) | `make bench-full` | Entire grid as run by the author | Several hours, roughly 11 GB |
 
 **What is pinned:**
 - Base image by digest; Python version; dependency lock file with hashes (pip-tools).
 - PyTorch CPU-only wheel (avoids multi-gigabyte CUDA downloads).
-- llama.cpp release tag, compiled from source in the Dockerfile so it targets the evaluator's CPU.
+- llama.cpp release tag, compiled from source in the Dockerfile so it targets the evaluator's CPU
+  (CI uses a portable AVX2 build because cached layers can move between runner CPUs).
+- A tiny random-weight model built from llama.cpp's bundled Qwen2 tokenizer lets tests exercise the
+  engine offline in seconds.
 - Model files by Hugging Face revision hash, verified by SHA-256 after download.
 
 **Supporting files:**

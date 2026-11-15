@@ -1,0 +1,195 @@
+{
+  "sysinfo": {
+    "captured_utc": "2026-11-15T12:13:50+00:00",
+    "bench_version": "0.1.0",
+    "git": {
+      "commit": "f8fb9a1e6931b9b2f24376135afa5705e7a1cf14",
+      "dirty": true
+    },
+    "os": {
+      "system": "Linux",
+      "release": "6.18.58.1-microsoft-standard-WSL2",
+      "version": "#1 SMP PREEMPT_DYNAMIC Tue Oct 27 00:24:11 UTC 2026",
+      "machine": "x86_64",
+      "wsl_kernel": true
+    },
+    "container": {
+      "in_container": true,
+      "cgroup_limits": {
+        "cpu.max": "max 100000",
+        "memory.max": "max"
+      }
+    },
+    "cpu": {
+      "model": "12th Gen Intel(R) Core(TM) i5-12450H",
+      "physical_cores": 6,
+      "logical_cpus": 12,
+      "usable_cpus": 12,
+      "max_mhz": null,
+      "current_mhz": 2496,
+      "flags": [
+        "sse4_2",
+        "avx",
+        "avx2",
+        "fma",
+        "f16c",
+        "avx_vnni"
+      ],
+      "hybrid": null
+    },
+    "memory": {
+      "total_gb": 11.68,
+      "available_gb": 10.33
+    },
+    "python": {
+      "version": "3.12.16",
+      "implementation": "CPython"
+    },
+    "packages": {
+      "torch": "2.14.1+cpu",
+      "transformers": "5.23.0",
+      "huggingface-hub": "2.4.0",
+      "tokenizers": "0.23.3",
+      "fastapi": "0.163.0",
+      "uvicorn": "0.54.0",
+      "httpx": "0.28.1",
+      "numpy": "2.5.4",
+      "pandas": "3.1.1",
+      "psutil": "7.2.2"
+    },
+    "torch_threads": {
+      "intra_op": 6,
+      "inter_op": 6
+    },
+    "llama_cpp": "b12407 (e574a17, GGML_NATIVE=ON) | 1.0.0 (build 12407, commit e574a17)",
+    "env": {}
+  },
+  "steps": {
+    "environment": {
+      "status": "PASS",
+      "llama_cpp_tools": {
+        "llama-server": "/opt/llama.cpp/bin/llama-server",
+        "llama-bench": "/opt/llama.cpp/bin/llama-bench",
+        "llama-perplexity": "/opt/llama.cpp/bin/llama-perplexity"
+      },
+      "stream": "/opt/stream/stream",
+      "seconds": 0.0
+    },
+    "tiny-engine": {
+      "status": "PASS",
+      "llama_bench": [
+        {
+          "model_type": "qwen2 ?B all F32",
+          "model_size": 39192832,
+          "model_n_params": 9798208,
+          "n_threads": 6,
+          "n_batch": 2048,
+          "n_ubatch": 512,
+          "type_k": "f16",
+          "type_v": "f16",
+          "n_prompt": 16,
+          "n_gen": 0,
+          "avg_ns": 4119216,
+          "stddev_ns": 0,
+          "avg_ts": 3884.234281,
+          "stddev_ts": 0.0,
+          "build_commit": "e574a17",
+          "build_number": 12407,
+          "cpu_info": "12th Gen Intel(R) Core(TM) i5-12450H",
+          "test": "pp16"
+        },
+        {
+          "model_type": "qwen2 ?B all F32",
+          "model_size": 39192832,
+          "model_n_params": 9798208,
+          "n_threads": 6,
+          "n_batch": 2048,
+          "n_ubatch": 512,
+          "type_k": "f16",
+          "type_v": "f16",
+          "n_prompt": 0,
+          "n_gen": 8,
+          "avg_ns": 8452836,
+          "stddev_ns": 0,
+          "avg_ts": 946.427921,
+          "stddev_ts": 0.0,
+          "build_commit": "e574a17",
+          "build_number": 12407,
+          "cpu_info": "12th Gen Intel(R) Core(TM) i5-12450H",
+          "test": "tg8"
+        }
+      ],
+      "seconds": 9.8
+    },
+    "models": {
+      "status": "PASS",
+      "files": 8,
+      "bytes": 1490986379,
+      "seconds": 367.9
+    },
+    "llama.cpp-0.5b": {
+      "status": "PASS",
+      "model": "qwen2.5-0.5b-q4_k_m",
+      "llama_bench": [
+        {
+          "model_type": "qwen2 1B Q4_K - Medium",
+          "model_size": 485452288,
+          "model_n_params": 630167424,
+          "n_threads": 6,
+          "n_batch": 2048,
+          "n_ubatch": 512,
+          "type_k": "f16",
+          "type_v": "f16",
+          "n_prompt": 64,
+          "n_gen": 0,
+          "avg_ns": 429042997,
+          "stddev_ns": 9437048,
+          "avg_ts": 149.205291,
+          "stddev_ts": 3.281841,
+          "build_commit": "e574a17",
+          "build_number": 12407,
+          "cpu_info": "12th Gen Intel(R) Core(TM) i5-12450H",
+          "test": "pp64"
+        },
+        {
+          "model_type": "qwen2 1B Q4_K - Medium",
+          "model_size": 485452288,
+          "model_n_params": 630167424,
+          "n_threads": 6,
+          "n_batch": 2048,
+          "n_ubatch": 512,
+          "type_k": "f16",
+          "type_v": "f16",
+          "n_prompt": 0,
+          "n_gen": 32,
+          "avg_ns": 491739849,
+          "stddev_ns": 371374,
+          "avg_ts": 65.075078,
+          "stddev_ts": 0.048971,
+          "build_commit": "e574a17",
+          "build_number": 12407,
+          "cpu_info": "12th Gen Intel(R) Core(TM) i5-12450H",
+          "test": "tg32"
+        }
+      ],
+      "tokens_per_s": {
+        "pp64": 149.21,
+        "tg32": 65.08
+      },
+      "seconds": 2.6
+    },
+    "transformers-0.5b": {
+      "status": "PASS",
+      "model": "qwen2.5-0.5b-hf",
+      "dtype": "float32",
+      "torch_threads": 6,
+      "load_s": 2.79,
+      "prompt_tokens": 44,
+      "new_tokens": 32,
+      "generate_s": 2.549,
+      "tokens_per_s": 12.55,
+      "sample_output": "Memory bandwidth limitations can significantly impact the performance of Large Language Model (LLM) inference on CPUs due to the high latency associated with accessing and processing large amounts of",
+      "seconds": 6.8
+    }
+  }
+}

@@ -1,0 +1,11 @@
+[project]
+name = "cpu-llm-serving"
+version = "0.1.0"
+description = "Capstone: high-performance LLM inference and serving on a CPU-only laptop"
+requires-python = ">=3.11"
+license = "MIT"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-ra"

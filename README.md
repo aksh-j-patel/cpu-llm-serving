@@ -8,41 +8,45 @@ Serve a small open-source LLM (Qwen2.5-1.5B-Instruct) on an Intel i5-12450H lapt
 dedicated GPU, then optimise it with quantisation, thread/core tuning, continuous batching
 and prompt caching. Every stage is benchmarked against a naive FastAPI + transformers baseline.
 
-Status: planning. No code yet. See [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md).
-Submission target: 15 January 2027.
+Status: week 1 of 9 (environment, model download, memory-bandwidth measurement, smoke test).
+See [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md). Submission target: 15 January 2027.
 
-## Reproducing the results (planned)
+## Quick start
 
-Everything runs inside one Docker image. Absolute numbers depend on your hardware; the relative
-trends should hold on any machine (see `docs/EXPECTED_RESULTS.md`, to be written).
+```bash
+docker compose build                          # compiles llama.cpp for your CPU (~10-20 min once)
+docker compose run --rm bench make smoke      # end-to-end check with the 0.5B model
+docker compose run --rm bench make stream     # memory bandwidth
+```
+
+Full instructions, hardware requirements and troubleshooting: [docs/REPRODUCE.md](docs/REPRODUCE.md).
+
+## Reproduction tiers
 
 | Command | What it does | Approx. time |
 |---|---|---|
 | `make plots` | Rebuild every report figure from the committed raw CSVs | < 1 min, no download |
-| `make smoke` | End-to-end check with the 0.5B model | < 15 min |
-| `make bench-quick` | Reduced benchmark grid on your hardware | ~1 hour |
-| `make bench-full` | Full grid as run by the author | several hours |
-
-Full instructions will be in `docs/REPRODUCE.md`.
+| `make smoke` | End-to-end check with the 0.5B model | 5–15 min |
+| `make bench-quick` | Reduced benchmark grid on your hardware (from week 2) | ~1 hour |
+| `make bench-full` | Full grid as run by the author (from week 2) | several hours |
 
 ## Repository layout
 
 | Path | Purpose |
 |---|---|
-| `docs/PROJECT_PLAN.md` | Objective, experiment stages, metrics, protocol, timeline |
+| `Dockerfile`, `compose.yaml`, `Makefile` | Pinned environment and one-command entry points |
+| `requirements.in` / `requirements.txt` | Top-level Python dependencies / hash-locked set |
+| `configs/models.yaml` | Which model files make up each set (smoke, quick, full) |
+| `configs/models.lock.json` | Exact Hugging Face revisions and file hashes (generated, committed) |
 | `configs/experiments.yaml` | Parameter grid for every experiment stage |
-| `src/baseline/` | S0: FastAPI + Hugging Face transformers server (FP32, sequential) |
-| `src/serving/` | Launch wrappers for llama.cpp `llama-server` per configuration |
-| `src/loadgen/` | Async streaming load generator (TTFT, latency, tokens/s) |
-| `src/profiling/` | psutil sampler, PyTorch profiler and py-spy helpers |
-| `src/analysis/` | Scripts that turn `results/raw` CSVs into plots and tables |
-| `scripts/` | One entry point per stage, model download, system-info capture |
-| `models/` | GGUF and Hugging Face weights (not committed) |
-| `results/raw/` | One CSV per run, with environment metadata |
-| `results/profiles/` | Flame graphs and profiler output |
+| `src/bench/` | Benchmark harness: `python -m bench --help` |
+| `src/bench/{baseline,serving,loadgen,profiling}/` | Later weeks: baseline server, llama.cpp launch, load generator, profiling |
+| `src/bench/analysis/` | Plots generated from `results/raw` |
+| `tests/` | Unit tests and an offline engine test with a tiny random-weight model |
+| `results/raw/` | One CSV/JSON per run, each with full environment metadata |
 | `results/plots/` | Generated figures for the report |
+| `docs/` | Project plan, reproduction guide |
 | `report/` | Technical report source and final PDF |
-| `assets/` | Course brief (capstone list and expectations) |
 
 ## Hardware
 

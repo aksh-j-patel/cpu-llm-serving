@@ -1,0 +1,4 @@
+# The image only needs the lock file; code is mounted at run time. Keeping the build
+# context tiny avoids sending model files and results to the Docker daemon.
+*
+!requirements.txt

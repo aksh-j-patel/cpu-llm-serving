@@ -1,0 +1,32 @@
+# Top-level Python dependencies. The hash-locked file is requirements.txt, generated with:
+#   uv pip compile requirements.in --universal --python-version 3.12 --generate-hashes -o requirements.txt
+# PyTorch is NOT listed here: it is installed separately from the CPU-only index
+# (see TORCH_VERSION in the Dockerfile) to avoid multi-gigabyte CUDA wheels.
+
+# Baseline server and model loading
+fastapi
+uvicorn
+transformers
+huggingface_hub
+
+# Load generation and measurement
+httpx
+psutil
+py-spy
+
+# Analysis and plots
+numpy
+pandas
+matplotlib
+pyyaml
+
+# Tests and the tiny offline test model
+pytest
+gguf
+
+# PyTorch's own runtime dependencies, locked here so that only the torch wheel itself
+# (installed from the CPU index) is outside the hash check
+sympy>=1.13.3
+networkx>=2.5.1
+jinja2
+setuptools>=77.0.3
