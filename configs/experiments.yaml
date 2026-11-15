@@ -1,0 +1,60 @@
+# Parameter grid for the experiment stages in docs/PROJECT_PLAN.md.
+# Draft values: adjust once the baseline is running.
+
+model:
+  name: Qwen2.5-1.5B-Instruct
+  hf_repo: Qwen/Qwen2.5-1.5B-Instruct
+  gguf_repo: Qwen/Qwen2.5-1.5B-Instruct-GGUF
+  fallback: Qwen2.5-0.5B-Instruct   # if FP32 baseline does not fit in free RAM
+
+workload:
+  max_tokens: 128
+  temperature: 0
+  seed: 42
+  prompt_classes: [short, medium, long]
+  warmup_runs: 1
+  repetitions: 5
+  cooldown_seconds: 60
+
+stages:
+  s0_baseline:
+    engine: transformers
+    precision: fp32
+    concurrency: [1, 4]
+  s1_engine:
+    engine: llama-server
+    precision: [f16]
+    threads: default
+    parallel_slots: 1
+  s2_quantisation:
+    precision: [f16, q8_0, q4_k_m]
+  s3_threading:
+    threads: [1, 2, 4, 6, 8, 12]
+    affinity: [all_cores, performance_cores_only]
+  s4_concurrency:
+    parallel_slots: [1, 2, 4, 8]
+    continuous_batching: [true, false]
+    users: [1, 2, 4, 8, 16]
+  s5_caching:
+    prompt_cache: [true, false]
+    shared_system_prompt_tokens: 500
+  s6_memory:
+    ctx_per_slot: [1024, 2048, 4096]
+    kv_cache_type: [f16, q8_0]
+    weight_loading: [mmap, mlock]
+  s7_speculative:            # stretch goal
+    draft_model: Qwen2.5-0.5B-Instruct (q4_k_m)
+    draft_max: [4, 8, 16]
+    draftless: [none, ngram-simple]
+
+tiers:                       # evaluator reproduction tiers (see docs/PROJECT_PLAN.md section 8)
+  smoke:
+    model: Qwen2.5-0.5B-Instruct
+    stages: [s0_baseline, s1_engine]
+    repetitions: 1
+  quick:
+    stages: [s0_baseline, s1_engine, s2_quantisation, s3_threading, s4_concurrency]
+    repetitions: 3
+  full:
+    stages: all
+    repetitions: 5

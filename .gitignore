@@ -1,0 +1,9 @@
+models/
+.venv/
+__pycache__/
+*.pyc
+*.gguf
+*.safetensors
+results/raw/*.tmp
+.env
+assets/

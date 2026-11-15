@@ -1,0 +1,13 @@
+# Draft dependency list. Pin exact versions (pip freeze) once the baseline runs.
+# llama.cpp itself is a separate binary install; record its build number in results.
+fastapi
+uvicorn
+torch
+transformers
+huggingface_hub
+httpx
+psutil
+py-spy
+pandas
+matplotlib
+pyyaml
